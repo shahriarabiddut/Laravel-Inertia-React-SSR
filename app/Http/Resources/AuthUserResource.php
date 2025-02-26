@@ -18,7 +18,7 @@ class AuthUserResource extends JsonResource
         return [
             'id'=> $this->id,
             'name'=> $this->name,
-            'email_verified_at'=> $this->email_verified_at,
+            'email_verified_at' => $this->when($this->email_verified_at, fn() => $this->email_verified_at->format('Y-m-d H:i:s')),
             'permissions'=> $this->getAllPermissions()->map(
                 function($permission){
                     return $permission->name;
