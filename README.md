@@ -4,8 +4,6 @@ Welcome to this project where we are learning and experimenting with **Inertia.j
 
 This project is designed to help you understand how to integrate modern JavaScript technologies like React and TypeScript into a Laravel backend using Inertia.js, while exploring tools like TailwindCSS, Vite, and Laravel Vite plugin.
 
----
-
 ## Features
 
 -   **Inertia.js**: Seamlessly integrates modern front-end frameworks like React with a Laravel backend.
