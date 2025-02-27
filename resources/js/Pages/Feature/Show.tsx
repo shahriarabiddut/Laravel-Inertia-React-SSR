@@ -1,4 +1,5 @@
 import FeatureItem from "@/Components/FeatureItem";
+import FeatureVote from "@/Components/FeatureVote";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Feature, PaginatedData } from "@/types";
 import { Head } from "@inertiajs/react";
@@ -14,9 +15,12 @@ export default function Show({ feature }: { feature: Feature }) {
     >
       <Head title={`Feature ${feature.name}`} />
 
-      <div className="grid grid-cols-1 gap-3 justify-center items-center">
+      <div className="flex flex-1 bg-white border-gray-200 w-full rounded-2xl shadow-lg p-5 border gap-4 lg:gap-10">
+        <div className="flex flex-col gap-3 justify-between items-center">
+          <FeatureVote key={feature.id} feature={feature} />
+        </div>
         <div className="flex flex-1">
-          <div className="w-full rounded-2xl overflow-hidden shadow-lg bg-white p-5 border border-gray-200">
+          <div className="w-full">
             <div className="mb-4">
               <h3 className="text-lg font-bold text-blue-600 ">
                 {feature.name}

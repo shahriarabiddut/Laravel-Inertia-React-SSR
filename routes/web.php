@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\UpvoteController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -17,6 +17,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['verified'])->group(function () {
         Route::get('/dashboard', function () { return Inertia::render('Dashboard');})->name('dashboard');
         Route::resource('feature', FeatureController::class);
+        Route::post('/feature/{feature}/upvote', [UpvoteController::class, 'store'])->name('feature.vote');
     });
 });
 

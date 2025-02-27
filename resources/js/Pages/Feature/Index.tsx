@@ -1,3 +1,4 @@
+import FakeToast from "@/Components/FakeToast";
 import FeatureItem from "@/Components/FeatureItem";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Feature, PaginatedData } from "@/types";
@@ -18,6 +19,7 @@ export default function Index({
       }
     >
       <Head title="Features" />
+      <FakeToast />
       <Link href={route("feature.create")} className={btnCss}>
         Create New Feature
       </Link>

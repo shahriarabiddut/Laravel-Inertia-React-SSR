@@ -2,6 +2,7 @@ import { Feature } from "@/types";
 import { Link } from "@inertiajs/react";
 import { useState } from "react";
 import FeatureActionsDropDown from "./FeatureActionsDropDown";
+import FeatureVote from "./FeatureVote";
 
 export default function FeatureItem({ feature }: { feature: Feature }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -9,8 +10,11 @@ export default function FeatureItem({ feature }: { feature: Feature }) {
     setIsExpanded(!isExpanded);
   };
   return (
-    <div className="flex flex-1">
-      <div className="w-full rounded-2xl overflow-hidden shadow-lg bg-white p-5 border border-gray-200">
+    <div className="flex flex-1 bg-white border-gray-200 w-full rounded-2xl shadow-lg p-5 border gap-4 lg:gap-10">
+      <div className="flex flex-col gap-3 justify-between items-center">
+        <FeatureVote key={feature.id} feature={feature} />
+      </div>
+      <div className="overflow-hidden w-full">
         <div className="mb-4 flex justify-between">
           <Link href={route("feature.show", feature)}>
             <h3 className="text-lg font-bold text-blue-600 ">{feature.name}</h3>
