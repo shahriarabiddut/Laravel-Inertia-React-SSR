@@ -1,4 +1,3 @@
-import FeatureItem from "@/Components/FeatureItem";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
@@ -10,11 +9,7 @@ import { Transition } from "@headlessui/react";
 import { Head, useForm } from "@inertiajs/react";
 import { FormEventHandler } from "react";
 
-export default function Create({
-  features,
-}: {
-  features: PaginatedData<Feature>;
-}) {
+export default function Create() {
   const { data, setData, processing, errors, post, recentlySuccessful } =
     useForm({
       name: "",
@@ -58,6 +53,7 @@ export default function Create({
             <TextAreaInput
               id="description"
               className="mt-1 block w-full"
+              rows={7}
               value={data.description}
               onChange={(e) => setData("description", e.target.value)}
               required

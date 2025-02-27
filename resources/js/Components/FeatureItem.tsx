@@ -1,6 +1,7 @@
 import { Feature } from "@/types";
 import { Link } from "@inertiajs/react";
 import { useState } from "react";
+import FeatureActionsDropDown from "./FeatureActionsDropDown";
 
 export default function FeatureItem({ feature }: { feature: Feature }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -10,10 +11,13 @@ export default function FeatureItem({ feature }: { feature: Feature }) {
   return (
     <div className="flex flex-1">
       <div className="w-full rounded-2xl overflow-hidden shadow-lg bg-white p-5 border border-gray-200">
-        <div className="mb-4">
+        <div className="mb-4 flex justify-between">
           <Link href={route("feature.show", feature)}>
             <h3 className="text-lg font-bold text-blue-600 ">{feature.name}</h3>
           </Link>
+          <div>
+            <FeatureActionsDropDown key={feature.id} feature={feature} />
+          </div>
         </div>
         <div className="text-sm text-gray-500">
           <p>
