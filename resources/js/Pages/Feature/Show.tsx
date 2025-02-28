@@ -1,5 +1,7 @@
+import CommentItem from "@/Components/CommentItem";
 import FeatureItem from "@/Components/FeatureItem";
 import FeatureVote from "@/Components/FeatureVote";
+import NewCommentForm from "@/Components/NewCommentForm";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Feature, PaginatedData } from "@/types";
 import { Head } from "@inertiajs/react";
@@ -38,6 +40,17 @@ export default function Show({ feature }: { feature: Feature }) {
             </div>
             <p className="text-gray-700 mb-4">{feature.description}</p>
           </div>
+        </div>
+      </div>
+      <div className="my-5 p-5 bg-gray-200 border-gray-200 w-full rounded-2xl shadow-lg border gap-4">
+        <h2 className="text-2xl font-semibold">Comments</h2>
+        <div>
+          <NewCommentForm feature={feature} />
+        </div>
+        <div>
+          {feature.comments.map((comment) => (
+            <CommentItem key={comment.id} comment={comment} />
+          ))}
         </div>
       </div>
     </AuthenticatedLayout>

@@ -13,6 +13,12 @@ export type PaginatedData<T = any> = {
   data: T[];
   links: Record<string, string>;
 };
+export type Comment = {
+  id: number;
+  comment: string;
+  created_at: string;
+  user: User;
+};
 
 export type Feature = {
   id: number;
@@ -23,6 +29,7 @@ export type Feature = {
   upvoteCount: number;
   user_has_upvoted: boolean;
   user_has_downvoted: boolean;
+  comments: Comment[];
 };
 
 export type PageProps<
