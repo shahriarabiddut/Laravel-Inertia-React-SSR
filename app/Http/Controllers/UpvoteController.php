@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Feature;
 use App\Models\Upvote;
 use Illuminate\Http\Request;
 
@@ -17,6 +18,10 @@ class UpvoteController extends Controller
             ['feature_id' => $data['feature_id'],'user_id' => auth()->id()],
             ['upvote' => $data['upvote']]
         );
-        return to_route('feature.index');
+        return back();
+    }
+    public function destroy(Feature $feature){
+        Upvote::where('feature_id',$feature->id)->where('user_id',auth()->id())->delete();
+        return back();
     }
 }

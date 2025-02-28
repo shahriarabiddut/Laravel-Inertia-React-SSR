@@ -1,11 +1,41 @@
 import { Feature } from "@/types";
+import { useForm } from "@inertiajs/react";
 
 export default function FeatureVote({ feature }: { feature: Feature }) {
+  const upvoteForm = useForm({
+    feature_id: feature.id,
+    upvote: true,
+  });
+  const downvoteForm = useForm({
+    feature_id: feature.id,
+    upvote: false,
+  });
+  const upvoteDownvote = (upvote: boolean): void => {
+    if (
+      (feature.user_has_upvoted && upvote) ||
+      (feature.user_has_downvoted && !upvote)
+    ) {
+      upvoteForm.delete(route("upvote.destroy", feature.id), {
+        preserveScroll: true,
+      });
+    } else {
+      let form = null;
+      if (upvote) {
+        form = upvoteForm;
+      } else {
+        form = downvoteForm;
+      }
+      form.post(route("feature.vote", feature.id), {
+        preserveScroll: true,
+      });
+    }
+  };
   return (
     <>
       <div>
         <button
           className={feature.user_has_upvoted ? "text-amber-600" : "text-black"}
+          onClick={() => upvoteDownvote(true)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -37,6 +67,7 @@ export default function FeatureVote({ feature }: { feature: Feature }) {
           className={
             feature.user_has_downvoted ? "text-amber-600" : "text-black"
           }
+          onClick={() => upvoteDownvote(false)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

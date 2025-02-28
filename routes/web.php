@@ -18,6 +18,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard', function () { return Inertia::render('Dashboard');})->name('dashboard');
         Route::resource('feature', FeatureController::class);
         Route::post('/feature/{feature}/upvote', [UpvoteController::class, 'store'])->name('feature.vote');
+        Route::delete('/upvote/{feature}', [UpvoteController::class, 'destroy'])->name('upvote.destroy');
     });
 });
 
