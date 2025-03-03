@@ -9,6 +9,4 @@ enum PermissionsEnum : string
     case ManageUsers = 'manage_users';
     case ManageComments = 'manage_comments';
     case ManageUpvoteDownvote = 'manage_upvote_downvote';
-    
-
 }

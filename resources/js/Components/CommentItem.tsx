@@ -11,7 +11,7 @@ export default function CommentItem({ comment }: { comment: Comment }) {
   };
   return (
     <>
-      <div className="flex gap-4 my-2 justify-between items-center">
+      <div className="flex gap-4 my-1 justify-between items-center border border-gray-50 p-2 rounded-xl">
         <div className="flex gap-4 items-start">
           <div className="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center">
             <svg
