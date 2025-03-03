@@ -1,14 +1,20 @@
 import { Feature } from "@/types";
 import TextAreaInput from "./TextAreaInput";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import { FormEventHandler } from "react";
 import PrimaryButton from "./PrimaryButton";
 import { Transition } from "@headlessui/react";
+import { can } from "@/helpers";
 
 export default function NewCommentForm({ feature }: { feature: Feature }) {
   const { data, setData, processing, post, recentlySuccessful } = useForm({
     comment: "",
   });
+
+  const user = usePage().props.auth.user;
+  if (!can(user, "manage_comments")) {
+    return <div>You don't have permission to comment!</div>;
+  }
 
   const createComment: FormEventHandler = (e) => {
     e.preventDefault();
