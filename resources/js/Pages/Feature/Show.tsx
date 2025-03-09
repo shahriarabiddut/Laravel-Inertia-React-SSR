@@ -2,10 +2,17 @@ import CommentItem from "@/Components/CommentItem";
 import FeatureVote from "@/Components/FeatureVote";
 import NewCommentForm from "@/Components/NewCommentForm";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Feature } from "@/types";
-import { Head } from "@inertiajs/react";
+import { Feature, Comment } from "@/types";
+import { Deferred, Head } from "@inertiajs/react";
+import { Suspense } from "react";
 
-export default function Show({ feature }: { feature: Feature }) {
+export default function Show({
+  feature,
+  comments,
+}: {
+  feature: Feature;
+  comments: Comment[];
+}) {
   return (
     <AuthenticatedLayout
       header={
@@ -43,14 +50,16 @@ export default function Show({ feature }: { feature: Feature }) {
       </div>
       <div className="my-5 p-5 bg-gray-200 border-gray-200 w-full rounded-2xl shadow-lg border gap-4">
         <h2 className="text-2xl font-semibold">
-          {feature.comments.length > 0 ? "Comments" : "No Comments Found"}
+          {comments && comments?.length > 0 ? "Comments" : "No Comments Found"}
         </h2>
-
-        <div>
-          {feature.comments.map((comment) => (
-            <CommentItem key={comment.id} comment={comment} />
-          ))}
-        </div>
+        <Deferred data="comments" fallback={<div>Loading...</div>}>
+          <div>
+            {comments &&
+              comments.map((comment) => (
+                <CommentItem key={comment.id} comment={comment} />
+              ))}
+          </div>
+        </Deferred>
         <div>
           <NewCommentForm feature={feature} />
         </div>
