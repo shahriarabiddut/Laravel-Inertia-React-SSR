@@ -1,9 +1,8 @@
 import CommentItem from "@/Components/CommentItem";
-import FeatureItem from "@/Components/FeatureItem";
 import FeatureVote from "@/Components/FeatureVote";
 import NewCommentForm from "@/Components/NewCommentForm";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Feature, PaginatedData } from "@/types";
+import { Feature } from "@/types";
 import { Head } from "@inertiajs/react";
 
 export default function Show({ feature }: { feature: Feature }) {

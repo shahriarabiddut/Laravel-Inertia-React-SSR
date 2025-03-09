@@ -6,6 +6,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UpvoteController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -17,7 +18,25 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Another Middleware
-    Route::middleware(['verified', 'role:' . RolesEnum::User->value])->group(function () {
+    Route::middleware(['verified', 'role:' . RolesEnum::Admin->value])->group(function () {
+        Route::resource('user', UserController::class);
+        // Route::get('/user', [UserController::class, 'index'])->name('user.index');
+        // Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+        // Route::get('/user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
+        // Route::put('/user/{user}', [UserController::class, 'update'])->name('user.update');
+    });
+    // Another Middleware
+    Route::middleware(
+        [
+            'verified',
+            sprintf(
+                'role:%s|%s|%s',
+                RolesEnum::User->value,
+                RolesEnum::Admin->value,
+                RolesEnum::Commenter->value,
+            )
+        ]
+    )->group(function () {
         Route::get('/dashboard', function () {
             return Inertia::render('Dashboard');
         })->name('dashboard');

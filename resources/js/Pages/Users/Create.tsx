@@ -1,24 +1,34 @@
+import FakeToast from "@/Components/FakeToast";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
+import PasswordInput from "@/Components/PasswordInput";
 import PrimaryButton from "@/Components/PrimaryButton";
-import TextAreaInput from "@/Components/TextAreaInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { Roles } from "@/types";
 import { Transition } from "@headlessui/react";
 import { Head, useForm } from "@inertiajs/react";
 import { FormEventHandler } from "react";
 
-export default function Create() {
+export default function Create({
+  roles,
+  roleLabels,
+}: {
+  roles: Roles;
+  roleLabels: Record<string, string>;
+}) {
   const { data, setData, processing, errors, post, recentlySuccessful } =
     useForm({
       name: "",
-      description: "",
+      email: "",
+      password: "",
+      roles: [],
     });
 
-  const createFeature: FormEventHandler = (e): void => {
+  const createUser: FormEventHandler = (e): void => {
     e.preventDefault();
 
-    post(route("feature.store"), {
+    post(route("user.store"), {
       preserveScroll: true,
     });
   };
@@ -26,14 +36,14 @@ export default function Create() {
     <AuthenticatedLayout
       header={
         <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-          Create New Feature
+          Add New User
         </h2>
       }
     >
-      <Head title="Create New Feature" />
-
+      <Head title="Add New User" />
+      <FakeToast />
       <div className="grid grid-cols-1 gap-3 justify-center items-center">
-        <form onSubmit={createFeature} className="mt-6 space-y-8">
+        <form onSubmit={createUser} className="mt-6 space-y-8">
           <div>
             <InputLabel htmlFor="name" value="Name" />
             <TextInput
@@ -48,18 +58,45 @@ export default function Create() {
             <InputError className="mt-2" message={errors.name} />
           </div>
           <div>
-            <InputLabel htmlFor="description" value="Description" />
-            <TextAreaInput
-              id="description"
+            <InputLabel htmlFor="email" value="Email" />
+            <TextInput
+              id="email"
               className="mt-1 block w-full"
-              rows={7}
-              value={data.description}
-              onChange={(e) => setData("description", e.target.value)}
+              value={data.email}
+              onChange={(e) => setData("email", e.target.value)}
               required
-              isFocused
-              autoComplete="description"
+              type="email"
+              autoComplete="email"
             />
-            <InputError className="mt-2" message={errors.name} />
+            <InputError className="mt-2" message={errors.email} />
+          </div>
+          <div>
+            <InputLabel htmlFor="password" value="Password" />
+            <PasswordInput
+              className="mt-1 block w-full"
+              value={data.password}
+              onChange={(e) => setData("password", e.target.value)}
+              error={errors.password}
+            />
+          </div>
+          {/* Role */}
+          <div>
+            <InputLabel htmlFor="roles" value="Role" />
+            {roles.map((role) => (
+              <div className="mt-4 block" key={role.name}>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="roles"
+                    value={role.name}
+                    onChange={(e) => setData("roles", [e.target.value])}
+                  />
+                  <span className="ms-2 text-sm text-gray-600 dark:text-gray-400">
+                    {roleLabels[role.name]}
+                  </span>
+                </label>
+              </div>
+            ))}
           </div>
           <div className="flex items-center gap-4">
             <PrimaryButton disabled={processing}>Save</PrimaryButton>

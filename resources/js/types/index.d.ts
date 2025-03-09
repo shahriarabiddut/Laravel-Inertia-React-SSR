@@ -7,6 +7,7 @@ export interface User {
   email_verified_at?: string;
   permissions: string[];
   roles: string[];
+  created_at: string;
 }
 
 export type PaginatedData<T = any> = {
@@ -31,7 +32,9 @@ export type Feature = {
   user_has_downvoted: boolean;
   comments: Comment[];
 };
-
+interface Roles {
+  roles: { name: string }[];
+}
 export type PageProps<
   T extends Record<string, unknown> = Record<string, unknown>
 > = T & {

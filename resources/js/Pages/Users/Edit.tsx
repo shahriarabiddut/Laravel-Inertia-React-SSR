@@ -1,25 +1,36 @@
+import FakeToast from "@/Components/FakeToast";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
-import TextAreaInput from "@/Components/TextAreaInput";
+import Radio from "@/Components/Radio";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Feature } from "@/types";
+import { User } from "@/types";
 import { Transition } from "@headlessui/react";
 import { Head, useForm } from "@inertiajs/react";
 import { FormEventHandler } from "react";
 
-export default function Edit({ feature }: { feature: Feature }) {
+export default function Edit({
+  roles,
+  user,
+  roleLabels,
+}: {
+  roles: any;
+  user: User;
+  roleLabels: Record<string, string>;
+}) {
   const { data, setData, processing, errors, put, recentlySuccessful } =
     useForm({
-      name: feature.name,
-      description: feature.description,
+      name: user.name,
+      email: user.email,
+      roles: user.roles,
     });
 
-  const editFeature: FormEventHandler = (e): void => {
+  const editUser: FormEventHandler = (e): void => {
     e.preventDefault();
 
-    put(route("feature.update", feature.id), {
+    // alert("dd");
+    put(route("user.update", user.id), {
       preserveScroll: true,
     });
   };
@@ -27,14 +38,15 @@ export default function Edit({ feature }: { feature: Feature }) {
     <AuthenticatedLayout
       header={
         <h2 className="text-xl leading-tight text-gray-800 dark:text-gray-200">
-          Edit Feature : <b>"{feature.name}"</b>
+          Edit User : <b>"{user.name}"</b>
         </h2>
       }
     >
-      <Head title={`Edit Feature ${feature.name}`} />
+      <Head title={`Edit User ${user.name}`} />
+      <FakeToast />
 
       <div className="grid grid-cols-1 gap-3 justify-center items-center">
-        <form onSubmit={editFeature} className="mt-6 space-y-8">
+        <form onSubmit={editUser} className="mt-6 space-y-8">
           <div>
             <InputLabel htmlFor="name" value="Name" />
             <TextInput
@@ -48,19 +60,39 @@ export default function Edit({ feature }: { feature: Feature }) {
             />
             <InputError className="mt-2" message={errors.name} />
           </div>
+          {/* Email */}
           <div>
-            <InputLabel htmlFor="description" value="Description" />
-            <TextAreaInput
-              id="description"
+            <InputLabel htmlFor="email" value="Name" />
+            <TextInput
+              id="email"
+              disabled
               className="mt-1 block w-full"
-              rows={7}
-              value={data.description}
-              onChange={(e) => setData("description", e.target.value)}
+              value={data.email}
+              onChange={(e) => setData("email", e.target.value)}
               required
               isFocused
-              autoComplete="description"
+              autoComplete="email"
             />
-            <InputError className="mt-2" message={errors.name} />
+            <InputError className="mt-2" message={errors.email} />
+          </div>
+          {/* Role */}
+          <div>
+            <InputLabel htmlFor="roles" value="Role" />
+            {roles.map((role: any) => (
+              <div className="mt-4 block" key={role.name}>
+                <label className="flex items-center">
+                  <Radio
+                    name="roles"
+                    value={role.name}
+                    checked={data.roles.includes(role.name)}
+                    onChange={(e) => setData("roles", [e.target.value])}
+                  />
+                  <span className="ms-2 text-sm text-gray-600 dark:text-gray-400">
+                    {roleLabels[role.name]}
+                  </span>
+                </label>
+              </div>
+            ))}
           </div>
           <div className="flex items-center gap-4">
             <PrimaryButton disabled={processing}>Update</PrimaryButton>
@@ -77,6 +109,8 @@ export default function Edit({ feature }: { feature: Feature }) {
               </p>
             </Transition>
           </div>
+          {/* <pre>{JSON.stringify(user, undefined, 2)}</pre> */}
+          {/* <pre>{JSON.stringify(data, undefined, 2)}</pre> */}
         </form>
       </div>
     </AuthenticatedLayout>
