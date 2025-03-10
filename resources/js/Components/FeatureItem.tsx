@@ -19,7 +19,9 @@ export default function FeatureItem({ feature }: { feature: Feature }) {
       <div className="overflow-hidden w-full">
         <div className="mb-4 flex justify-between">
           <Link prefetch={["hover"]} href={route("feature.show", feature)}>
-            <h3 className="text-lg font-bold text-blue-600 ">{feature.name}</h3>
+            <h3 className="text-lg font-bold text-blue-600 ">
+              {feature.id}- {feature.name}
+            </h3>
           </Link>
           {can(user, "manage_features") && (
             <div>
